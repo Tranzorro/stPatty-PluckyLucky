@@ -19,6 +19,8 @@ public class Manager : MonoBehaviour {
     public bool day4;
     private int daytype;
     private GameObject moonObj;
+    public bool paused;
+    
     void Start()
     {
         moonObj = GameObject.FindGameObjectWithTag("moon");
@@ -27,9 +29,11 @@ public class Manager : MonoBehaviour {
         wishCount = 3;
         pauseScreen = GameObject.Find("continuescreen").GetComponent<Canvas>();
         pauseScreen.enabled = false;
+        paused = false;
         Time.timeScale = 1;
         SetScore();
         PickDay();
+        
     }
 
     public void CheckWish()
@@ -80,6 +84,7 @@ public class Manager : MonoBehaviour {
         count = count / 2;
         PlayerPrefs.SetInt("Coins", count);
         pauseScreen.enabled = false;
+        paused = false;
         Time.timeScale = 1;
         wishCount--;
         CheckWish();

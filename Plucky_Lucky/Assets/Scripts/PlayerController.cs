@@ -1,23 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
     private Rigidbody2D rigid;
     private Manager manager;
     public float thrust;
     public float bigG;
-    public Canvas pauseScreen;
     private SpriteRenderer charSprite;
     public Sprite[] charSprites;
+    private PlayBGM bgm;
+    private AudioSource source;
+    public AudioClip audioCoin;
+    public AudioClip hurt;
     void Start() {
+        source = GetComponent<AudioSource>();
         rigid = gameObject.GetComponent<Rigidbody2D>();
         charSprite = gameObject.GetComponent<SpriteRenderer>();
         manager = GameObject.FindGameObjectWithTag("manager").GetComponent<Manager>();
-        pauseScreen = GameObject.Find("continuescreen").GetComponent<Canvas>();
         charSprite.sprite = charSprites[0];
         bigG = 0f;
+        bgm = FindObjectOfType<PlayBGM>();
     }
 	void Update () {
         if(Input.GetMouseButton(0) || Input.touchCount > 0)
@@ -53,12 +56,16 @@ public class PlayerController : MonoBehaviour {
     {
         if (other.gameObject.tag == "coin")
         {
+            source.clip = audioCoin;
+            source.Play();
             manager.count ++;
             manager.SetScore();
         }
         else if (other.gameObject.tag == "wish")
         {
-            if(manager.wishCount < 3)
+            source.clip = audioCoin;
+            source.Play();
+            if (manager.wishCount < 3)
             {
                 manager.wishCount++;
                 manager.CheckWish();
@@ -68,8 +75,12 @@ public class PlayerController : MonoBehaviour {
         {
             if (manager.wishCount > 0)
             {
+                source.clip = hurt;
+                source.Play();
                 Time.timeScale = 0;
-                pauseScreen.enabled = true;
+                manager.pauseScreen.enabled = true;
+                manager.paused = true;
+                bgm.source.Stop();
             }
             else if (manager.wishCount == 0)
             {
@@ -78,7 +89,15 @@ public class PlayerController : MonoBehaviour {
         }
         else if (other.gameObject.tag == "TheBigG")
         {
+            source.clip = audioCoin;
+            source.Play();
             bigG += 0.1f;
+        }
+        else if (other.gameObject.tag == "moreBigG")
+        {
+            source.clip = audioCoin;
+            source.Play();
+            bigG -= 0.1f;
         }
     }
 }

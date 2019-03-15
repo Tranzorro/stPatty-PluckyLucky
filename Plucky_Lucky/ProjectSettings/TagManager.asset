@@ -15,6 +15,7 @@ TagManager:
   - cloud
   - tourist
   - moon
+  - moreBigG
   layers:
   - Default
   - TransparentFX
