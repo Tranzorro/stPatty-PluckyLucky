@@ -5,7 +5,7 @@ using UnityEngine;
 public class itemAlteredMove : MonoBehaviour {
     public float speed;
     private bool collided;
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "coin"||collision.tag =="wish"|| collision.tag == "hazard"||collision.tag =="TheBigG"||collision.tag == "moreBigG"||collision.tag =="collect")
         {
@@ -25,6 +25,10 @@ public class itemAlteredMove : MonoBehaviour {
             {
                 Destroy(gameObject);
             }
-        }
+        }/*
+        else if (collided)
+        {
+            transform.Translate(Vector2.right * Time.deltaTime * speed);
+        }*/
     }
 }

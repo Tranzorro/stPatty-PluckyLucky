@@ -20,9 +20,12 @@ public class Manager : MonoBehaviour {
     private int daytype;
     private GameObject moonObj;
     public bool paused;
+    private PlayerController player;
+    private GameObject[] hazards;
     
     void Start()
     {
+        player = FindObjectOfType<PlayerController>();
         moonObj = GameObject.FindGameObjectWithTag("moon");
         count = PlayerPrefs.GetInt("Coins",0);
         alive = true;
@@ -80,11 +83,16 @@ public class Manager : MonoBehaviour {
 
     public void ContinueButton()
     {
+        hazards = GameObject.FindGameObjectsWithTag("hazard");
         //save half current score here
         count = count / 2;
         PlayerPrefs.SetInt("Coins", count);
         pauseScreen.enabled = false;
         paused = false;
+        player.rigid.velocity = Vector2.zero;
+        // destroy all hazards currently spawned to allow player time to recup.
+        for (var i = 0; i < hazards.Length; i++)
+            Destroy(hazards[i]);
         Time.timeScale = 1;
         wishCount--;
         CheckWish();

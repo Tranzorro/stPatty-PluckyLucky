@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-    private Rigidbody2D rigid;
+    public Rigidbody2D rigid;
     private Manager manager;
     public float thrust;
     public float bigG;
@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour {
                 source.clip = hurt;
                 source.Play();
                 Time.timeScale = 0;
+                rigid.velocity = Vector2.zero;
                 manager.pauseScreen.enabled = true;
                 manager.paused = true;
                 bgm.source.Stop();
