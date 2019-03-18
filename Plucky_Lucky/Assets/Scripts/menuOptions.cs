@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class menuOptions : MonoBehaviour {
+    public Canvas credits;
     private void Awake()
     {
         Time.timeScale = 1;
@@ -21,5 +22,14 @@ public class menuOptions : MonoBehaviour {
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
+    }
+    public void CreditsButton()
+    {
+        credits.enabled = true;
+    }
+
+    public void BackButton()
+    {
+        credits.enabled = false;
     }
 }

@@ -14,6 +14,19 @@ public class HazardSpawner : MonoBehaviour {
     private int airrand;
     private int groundrand;
     private int locrand;
+    private bool collided;
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (!collision.CompareTag("spawn"))
+        {
+            collided = true;
+        }
+            
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        collided = false;
+    }
     void Start()
     {
         InvokeRepeating("airSpawn", airstartRate, airspawnRate);
@@ -21,13 +34,19 @@ public class HazardSpawner : MonoBehaviour {
     }
     void airSpawn()
     {
-        airrand = Random.Range(0, airitems.Length);
-        locrand = Random.Range(0, airspawnloc.Length);
-        Instantiate<GameObject>(airitems[airrand], airspawnloc[locrand].transform.position, Quaternion.identity);
+        if (!collided)
+        {
+            airrand = Random.Range(0, airitems.Length);
+            locrand = Random.Range(0, airspawnloc.Length);
+            Instantiate<GameObject>(airitems[airrand], airspawnloc[locrand].transform.position, Quaternion.identity);
+        }
     }
     void groundSpawn()
     {
-        groundrand = Random.Range(0, grounditems.Length);
-        Instantiate<GameObject>(grounditems[groundrand], groundspawnloc.transform.position, Quaternion.identity);
+        if (!collided)
+        {
+            groundrand = Random.Range(0, grounditems.Length);
+            Instantiate<GameObject>(grounditems[groundrand], groundspawnloc.transform.position, Quaternion.identity);
+        }
     }
 }
